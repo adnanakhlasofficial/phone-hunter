@@ -1,17 +1,29 @@
-const loadPhones = async (phoneBrand, showMore) => {
+const loadPhones = async (showMore, phoneBrand) => {
+  const phoneContainer = document.getElementById("phones-container");
+  phoneContainer.style.display = "flex";
+
+  const spin = document.getElementById("spinner");
+  spin.style.display = "none";
+
+  console.log("btn:", showMore, "brand:", phoneBrand);
   const url = `https://openapi.programming-hero.com/api/phones?search=${phoneBrand}`;
   const res = await fetch(url);
   const data = await res.json();
-  loadPhone(data.data);
+  if (showMore) {
+    loadPhone(data.data);
+  } else {
+    loadPhone(data.data.splice(0, 6));
+  }
 };
 
 function loadPhone(phones) {
   const phoneContainer = document.getElementById("phones-container");
+  phoneContainer.innerHTML = "";
   phones.forEach((phone) => {
     console.log(phone);
 
     const { image, phone_name } = phone;
-    console.log(phone_name);
+    // console.log(phone_name);
 
     const phoneCard = document.createElement("div");
     phoneCard.className =
@@ -32,4 +44,20 @@ function loadPhone(phones) {
   });
 }
 
-loadPhones("iphone");
+function handleShowAll() {
+  console.log("Clicked");
+  loadPhones(true, "iphone");
+}
+
+function loadspinner() {
+  const phoneContainer = document.getElementById("phones-container");
+  phoneContainer.style.display = "none";
+  const spin = document.getElementById("spinner");
+  spin.style.display = "block";
+
+  setTimeout(() => {
+    loadPhones("", "iphone");
+  }, 3000);
+}
+
+loadspinner();
