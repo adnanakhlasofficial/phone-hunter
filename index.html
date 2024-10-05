@@ -290,7 +290,19 @@
     <!-- show modal here  -->
     <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
 
-    <div id="modal-details"></div>
+    <div id="modal-details">
+      <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+          <div id="modal-body"></div>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </div>
     <!-- footer  -->
     <div class="mt-12">
       <footer class="bg-gray-50 py-10">

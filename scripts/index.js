@@ -1,11 +1,11 @@
-const loadPhones = async (showMore, phoneBrand) => {
+const loadPhones = async (showMore, phoneBrand = "iphone") => {
   const phoneContainer = document.getElementById("phones-container");
   phoneContainer.style.display = "flex";
 
   const spin = document.getElementById("spinner");
   spin.style.display = "none";
 
-  console.log("btn:", showMore, "brand:", phoneBrand);
+  // console.log("btn:", showMore, "brand:", phoneBrand);
   const url = `https://openapi.programming-hero.com/api/phones?search=${phoneBrand}`;
   const res = await fetch(url);
   const data = await res.json();
@@ -16,14 +16,14 @@ const loadPhones = async (showMore, phoneBrand) => {
   }
 };
 
-function loadPhone(phones) {
+const loadPhone = (phones) => {
   const phoneContainer = document.getElementById("phones-container");
   phoneContainer.innerHTML = "";
   phones.forEach((phone) => {
-    console.log(phone);
+    // console.log(phone);
 
-    const { image, phone_name } = phone;
-    // console.log(phone_name);
+    const { image, phone_name, slug } = phone;
+    // console.log(slug);
 
     const phoneCard = document.createElement("div");
     phoneCard.className =
@@ -35,21 +35,21 @@ function loadPhone(phones) {
 	<h5 class="text-xl font-semibold mb-2">${phone_name}</h5>
 	<p class="text-gray-600 mb-4">There are many variations of passages of available, but the majority have suffered</p>
 	<p class="text-2xl font-bold mb-4">$999</p>
-	<button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Show Details</button>
+	<button onclick="showDetails('${slug}')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Show Details</button>
 	</div>
 
 		`;
 
     phoneContainer.appendChild(phoneCard);
   });
-}
+};
 
-function handleShowAll() {
-  console.log("Clicked");
-  loadPhones(true, "iphone");
-}
+const handleShowAll = () => {
+  // console.log("Clicked");
+  loadPhones(true);
+};
 
-function loadspinner() {
+const loadspinner = () => {
   const phoneContainer = document.getElementById("phones-container");
   phoneContainer.style.display = "none";
   const spin = document.getElementById("spinner");
@@ -58,6 +58,31 @@ function loadspinner() {
   setTimeout(() => {
     loadPhones("", "iphone");
   }, 3000);
-}
+};
+
+const showDetails = async (slug) => {
+  const url = `https://openapi.programming-hero.com/api/phone/${slug}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const phoneDetails = data.data;
+  const {
+    brand,
+    image,
+    mainFeatures: { storage, displaySize },
+    name,
+    releaseDate,
+  } = phoneDetails;
+
+  const modalBody = document.getElementById("modal-body");
+  modalBody.innerHTML = `
+		<h2>${brand}</h2>
+		<div><img src="${image}"></div>
+		<h3>${storage} ${displaySize}</h3>
+	`;
+
+  my_modal_1.showModal();
+
+  console.log(storage);
+};
 
 loadspinner();
