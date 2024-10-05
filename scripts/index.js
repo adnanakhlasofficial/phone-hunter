@@ -44,9 +44,17 @@ const loadPhone = (phones) => {
   });
 };
 
-const handleShowAll = () => {
-  // console.log("Click");
-  loadPhones(true);
+document.getElementById("seach-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  let searchText = document.getElementById("search-text").value;
+  console.log(searchText);
+  // loadPhones("", searchText);
+  handleShowAll(false, searchText);
+});
+
+const handleShowAll = (status = true, value) => {
+  console.log("Click", status, value);
+  loadPhones(status, value);
 };
 
 const loadspinner = () => {
@@ -93,12 +101,5 @@ const showDetails = async (slug) => {
 
   // console.log(storage);
 };
-
-document.getElementById("seach-btn").addEventListener("click", (e) => {
-  e.preventDefault();
-  let searchText = document.getElementById("search-text").value;
-  console.log(searchText);
-  loadPhones("", searchText);
-});
 
 loadspinner();
