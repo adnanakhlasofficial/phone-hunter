@@ -5,7 +5,7 @@ const loadPhones = async (showMore, phoneBrand = "iphone") => {
   const spin = document.getElementById("spinner");
   spin.style.display = "none";
 
-  // console.log("btn:", showMore, "brand:", phoneBrand);
+  console.log("btn:", showMore, "brand:", phoneBrand);
   const url = `https://openapi.programming-hero.com/api/phones?search=${phoneBrand}`;
   const res = await fetch(url);
   const data = await res.json();
@@ -45,7 +45,7 @@ const loadPhone = (phones) => {
 };
 
 const handleShowAll = () => {
-  // console.log("Clicked");
+  // console.log("Click");
   loadPhones(true);
 };
 
@@ -75,14 +75,30 @@ const showDetails = async (slug) => {
 
   const modalBody = document.getElementById("modal-body");
   modalBody.innerHTML = `
-		<h2>${brand}</h2>
-		<div><img src="${image}"></div>
-		<h3>${storage} ${displaySize}</h3>
+		<div class="card bg-base-100 w-96 shadow-xl">
+  <figure class="px-10 pt-10">
+    <img
+      src="${image}"
+      alt="Shoes"
+      class="rounded-xl" />
+  </figure>
+  <div class="card-body items-center text-center !space-y-8">
+    <h2 class="card-title">${name}</h2>
+    <p>${storage}</p>
+  </div>
+</div>
 	`;
 
   my_modal_1.showModal();
 
-  console.log(storage);
+  // console.log(storage);
 };
+
+document.getElementById("seach-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  let searchText = document.getElementById("search-text").value;
+  console.log(searchText);
+  loadPhones("", searchText);
+});
 
 loadspinner();
