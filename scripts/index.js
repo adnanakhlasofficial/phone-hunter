@@ -19,6 +19,10 @@ const loadPhones = async (showMore, phoneBrand = "iphone") => {
 const loadPhone = (phones) => {
   const phoneContainer = document.getElementById("phones-container");
   phoneContainer.innerHTML = "";
+  if (phones.length < 1) {
+    phoneContainer.innerHTML = `<h2 class="text-5xl text-center">No Phone</h2>`;
+    return;
+  }
   phones.forEach((phone) => {
     // console.log(phone);
 
@@ -44,17 +48,19 @@ const loadPhone = (phones) => {
   });
 };
 
+// input value
 document.getElementById("seach-btn").addEventListener("click", (e) => {
   e.preventDefault();
   let searchText = document.getElementById("search-text").value;
   console.log(searchText);
-  // loadPhones("", searchText);
-  handleShowAll(false, searchText);
+  loadPhones("", searchText);
 });
 
-const handleShowAll = (status = true, value) => {
-  console.log("Click", status, value);
-  loadPhones(status, value);
+// show all
+const handleShowAll = (status = true) => {
+  let searchText = document.getElementById("search-text").value;
+  console.log("Click", status, searchText);
+  loadPhones(status, searchText ? searchText : "iphone");
 };
 
 const loadspinner = () => {
